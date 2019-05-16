@@ -19,8 +19,15 @@ class MainView extends React.Component {
   updateDatavalue(){
     let activeitem = this.props.activeCategory.items.filter((item) => { return item.active; })[0];
     let self = this;
-    activeitem.generateData().then((datavalue) => {
-      self.setState({datavalue: datavalue});
+    
+    self.setState({datavalue: 'loading...'}, function(){
+      activeitem.generateData()
+        .then(datavalue => {
+          self.setState({datavalue: datavalue});
+        })
+        .catch(error => {
+          self.setState({datavalue: '[error]'});
+        });            	
     });
   }
   render() {
