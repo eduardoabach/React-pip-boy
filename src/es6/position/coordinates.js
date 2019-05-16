@@ -9,11 +9,12 @@ export default class Coordinates{
   generateData(){
     return new Promise((resolve, reject) => {
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
-          resolve(`lat: ${position.coords.latitude} \n lon: ${position.coords.longitude}`);
-        });
+        navigator.geolocation.getCurrentPosition(
+          (position) => { resolve(`lat: ${position.coords.latitude} \n lon: ${position.coords.longitude}`); },
+          (posError) => { resolve(posError.message); },
+        );
       } else {
-        alert("Geolocation is not supported by this browser.");
+        resolve("Geolocation is not supported by this browser.");
       }
   })
   }
